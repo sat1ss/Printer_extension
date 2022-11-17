@@ -1,4 +1,6 @@
-import os, shutil, time
+import os
+from shutil import move
+from time import sleep
 from datetime import date
 
 Folder_to_print = r"C:\Printer"
@@ -10,18 +12,14 @@ try:
 except Exception:
         print(f"{Current_date_folder} already exist")
 
-# Waiting loop
-while True:
+
 # Loop to search for files to print, doing it and then moving them to correct directory
-    for file in os.listdir(Folder_to_print):
+for file in os.listdir(Folder_to_print):
 
         file_path = os.path.join(Folder_to_print, file)
 
         if os.path.isfile(file_path):
-            print(f"Printing {file}")
-            os.startfile(file_path, "print")        
-            time.sleep(8)
-            shutil.move(file_path, Current_date_folder)
-
-    time.sleep(10)
-    print("Waiting for new files...")
+                print(f"Printing {file}")
+                os.startfile(file_path, "print")        
+                sleep(8)
+                move(file_path, Current_date_folder)
