@@ -31,26 +31,27 @@ for file in os.listdir(Folder_to_print):
                 sleep(1)
                 try:
                         shutil.move(file_path, Current_date_folder)
-                
+                #Expect that some file can already have the same name
                 except shutil.Error:
-                        copy_number = 0
+                        number_of_copy = 0
                         file_format = file[file.index("."):]
                         file_name = file[:file.index(".")]
                         old_path = file_path
-                        sleep(2)
+                        sleep(3)
                         print(f"{file_path} already exist, changing name")
-
+                
+                #New name is Current name+" -- copy(number_of_copy)" 
                         while os.path.exists(file_path):
-                                copy_number += 1
-                                file_path = f"{Current_date_folder}\{file_name} -- kopia({copy_number}){file_format}"
+                                number_of_copy += 1
+                                file_path = f"{Current_date_folder}\{file_name} -- copy({number_of_copy}){file_format}"
                                 print(f"Testing {file_path} ...")
                 
+                #Rename file and expect some bug I think with shutil
                 try:
                         os.rename(old_path, file_path)
                         shutil.move(file_path, Current_date_folder)
-                
                 except shutil.Error:
-                        print("shutil probably have some problems with unnecessary errors")
+                        print("Shutil probably have some problems with unnecessary errors")
 
 #Changing default printer to PDF.
 if Default_printer() != "Microsoft Print to PDF":
