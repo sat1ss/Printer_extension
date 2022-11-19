@@ -1,4 +1,5 @@
-import os, shutil, win32print
+import os, shutil
+from win32.win32print import *
 from time import sleep
 from datetime import date
 
@@ -7,7 +8,7 @@ Current_date_folder = f"{Folder_to_print}\{date.today().strftime('%d.%m.%Y')}"
 
 #This function read default printer, and return it.
 def Default_printer():        
-        printer = win32print.GetDefaultPrinter()
+        printer = GetDefaultPrinter()
         return printer
 
 # Creating folder (DD.MM.YYYY), if doesn't exist.
@@ -18,7 +19,8 @@ else:
         
 #Changing default printer to physical printer.
 if Default_printer() != "Brother DCP-J105 Printer":
-        win32print.SetDefaultPrinter("Brother DCP-J105 Printer")
+        SetDefaultPrinter("Brother DCP-J105 Printer")
+print("-----------------------------------------------------------------------------")
 
 #Loop that searches for files to print, does that, then move them to the appropriate directory.
 for file in os.listdir(Folder_to_print):
@@ -28,7 +30,7 @@ for file in os.listdir(Folder_to_print):
         if os.path.isfile(file_path):
                 print(f"Printing: {file}")
                 os.startfile(file_path, "print")
-                sleep(1)
+                sleep(8)
                 try:
                         shutil.move(file_path, Current_date_folder)
                 #Expect that some file can already have the same name
@@ -37,22 +39,24 @@ for file in os.listdir(Folder_to_print):
                         file_format = file[file.index("."):]
                         file_name = file[:file.index(".")]
                         old_path = file_path
-                        sleep(3)
                         print(f"{file_path} already exist, changing name")
                 
                 #New name is Current name+" -- copy(number_of_copy)" 
                         while os.path.exists(file_path):
                                 number_of_copy += 1
                                 file_path = f"{Current_date_folder}\{file_name} -- copy({number_of_copy}){file_format}"
-                                print(f"Testing {file_path} ...")
                 
                 #Rename file and expect some bug I think with shutil
                 try:
                         os.rename(old_path, file_path)
+                        print(f'Name changed sucessfully to: "{file_name} -- copy({number_of_copy}){file_format}"')
                         shutil.move(file_path, Current_date_folder)
                 except shutil.Error:
                         print("Shutil probably have some problems with unnecessary errors")
+                print("-----------------------------------------------------------------------------")               
 
 #Changing default printer to PDF.
 if Default_printer() != "Microsoft Print to PDF":
-        win32print.SetDefaultPrinter("Microsoft Print to PDF")
+        SetDefaultPrinter("Microsoft Print to PDF")
+        print("Printer changed to: \"Microsoft Print to PDF\"")
+sleep(10)
