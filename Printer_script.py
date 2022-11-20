@@ -1,4 +1,5 @@
-import os, shutil
+#pywintypes is extremely important if you wanna convert this into .exe
+import os, shutil, pywintypes           
 from win32.win32print import *
 from time import sleep
 from datetime import date
