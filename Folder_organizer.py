@@ -1,4 +1,4 @@
-import os 
+import os
 from shutil import rmtree
 from datetime import date, timedelta
 from time import sleep
@@ -6,7 +6,6 @@ from time import sleep
 today = date.today().strftime('%d.%m.%Y')
 last_seven_days = []
 Folder_to_clear = r"C:\Printer"
-counter = 0
 
 # Looking for last seven days, save it into list
 for x in range(7):
@@ -26,7 +25,3 @@ for object in os.listdir(Folder_to_clear):
             print('If you wanna cancel this process press "Ctrl + C" ')
             sleep(5)
             rmtree(path)
-            # Counter added for safety reasons
-            counter += 1
-            if counter >= 3:
-                exit()
